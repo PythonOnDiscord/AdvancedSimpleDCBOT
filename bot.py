@@ -217,8 +217,8 @@ async def generate_meme(ctx, meme_id: int, caption1: str, caption2: str):
     response = requests.post("https://api.imgflip.com/caption_image",
         data={
             "template_id": meme_id,
-            "username": "HELPERBOT",
-            "password": "jewsD5@T$r7#W4S",
+            "username": "user",
+            "password": "pass",
             "text0": caption1,
             "text1": caption2,
         }
