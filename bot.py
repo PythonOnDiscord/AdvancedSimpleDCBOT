@@ -326,13 +326,12 @@ async def work_command(ctx):
     user_id = str(ctx.author.id)
     c.execute('SELECT balance FROM balances WHERE user_id = ?', (user_id,))
     result = c.fetchone()
-    if result is None:
-        await ctx.send('You do not have a balance yet. Use !balance to create one.')
-        return
-    old_balance = result[0]
+    old_balance = 0
+    if result is not None:
+        old_balance = result[0]
     coins = random.randint(10, 100)
     new_balance = old_balance + coins
-    c.execute('UPDATE balances SET balance = ? WHERE user_id = ?', (new_balance, user_id))
+    c.execute('REPLACE INTO balances (user_id, balance) VALUES (?, ?)', (user_id, new_balance))
     conn.commit()
     await ctx.send(f'You worked and earned {coins} coins! Your new balance is {new_balance}.')
 
